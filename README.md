@@ -22,6 +22,7 @@ FoodRoots is a location-based food recommendation web app that helps users explo
 
 
 🛠️ Tech Stack
+
 Frontend: React (Next.js), Tailwind CSS, Shadcn UI
 
 Backend: Flask (Python)
