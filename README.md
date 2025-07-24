@@ -26,6 +26,8 @@ Frontend: React (Next.js), Tailwind CSS, Shadcn UI
 
 Backend: Flask (Python)
 
+Database:MongoDB
+
 APIs: Google Maps Geocoding API & Directions API
 
 Others: OpenCV (for future image recognition), LocalStorage
