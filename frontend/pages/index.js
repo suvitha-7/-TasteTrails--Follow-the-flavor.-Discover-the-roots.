@@ -12,15 +12,21 @@ export default function Home() {
       const response = await fetch("http://127.0.0.1:5000/get_foods", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ location }),
+        body: JSON.stringify({
+          city: location.trim().toLowerCase(),
+          type: filter === "ALL" ? "" : filter.toLowerCase(),
+        }),
       });
+
       const data = await response.json();
+
       if (data.foods) {
         setFoodItems(data.foods);
-        getUserLocation(); // fetch location when showing results
+        getUserLocation(); // fetch location for directions
       } else {
         setFoodItems([]);
       }
+
       setSelectedFood(null);
     } catch (error) {
       console.error("Error fetching foods:", error);
@@ -42,19 +48,14 @@ export default function Home() {
     );
   };
 
-  const filteredItems =
-    filter === "ALL"
-      ? foodItems
-      : foodItems.filter((item) => item.type.toUpperCase() === filter);
-
   const getDirectionsUrl = (lat, lng) => {
     if (!userLocation) return null;
     return `https://www.google.com/maps/dir/?api=1&origin=${userLocation.lat},${userLocation.lng}&destination=${lat},${lng}`;
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-yellow-100 to-lime-100 p-6">
-      <div className="max-w-xl mx-auto bg-white shadow-xl rounded-xl p-6 space-y-6">
+    <div className="min-h-screen" style={{ backgroundColor: "#131D4F" }}>
+      <div className="max-w-xl mx-auto bg-white shadow-xl rounded-xl p-6 space-y-6 mt-8">
         <h1 className="text-3xl font-bold text-center text-blue-700">
           🍽️ Native Food Recommender
         </h1>
@@ -62,11 +63,11 @@ export default function Home() {
           type="text"
           value={location}
           onChange={(e) => setLocation(e.target.value)}
-          placeholder="Enter a location (e.g., delhi)"
-          className="w-full p-3 border border-blue-300 rounded-lg"
+          placeholder="e.g., mumbai"
+          className="w-full p-3 border border-black rounded-lg text-black"
         />
         <div className="flex justify-center gap-4">
-          {["ALL", "VEG", "NON-VEG"].map((type) => (
+          {["ALL", "VEG", "NON-VEG", "SWEETS", "DRINKS"].map((type) => (
             <button
               key={type}
               onClick={() => setFilter(type)}
@@ -88,7 +89,7 @@ export default function Home() {
         </button>
 
         <div className="space-y-4">
-          {filteredItems.map((food, index) => (
+          {foodItems.map((food, index) => (
             <div
               key={index}
               className="bg-gray-900 text-white rounded-lg p-4 cursor-pointer"
@@ -101,7 +102,6 @@ export default function Home() {
                   🍜 <strong>{food.name}</strong> — ⭐ {food.rating}{" "}
                   <span className="text-sm">({food.type})</span>
                 </div>
-                <div>⭐</div>
               </div>
 
               {selectedFood === food.name && (
@@ -123,12 +123,14 @@ export default function Home() {
                           )}
                           target="_blank"
                           rel="noopener noreferrer"
-                          className="text-blue-600 underline text-sm"
+                          className="block mt-1 text-blue-600 underline text-sm"
                         >
-                          View on Google Maps →
+                          📍 Get Directions on Google Maps →
                         </a>
                       ) : (
-                        <p className="text-gray-500">Location not available</p>
+                        <p className="text-gray-500 text-sm">
+                          Location not available
+                        </p>
                       )}
                     </div>
                   ))}
