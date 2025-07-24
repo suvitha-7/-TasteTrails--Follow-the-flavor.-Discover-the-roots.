@@ -17,7 +17,7 @@ FoodRoots is a location-based food recommendation web app that helps users explo
 
 ❤️ Save Favorites – Bookmark your favorite dishes across locations.
 
-🕓 Distance & Duration Estimates (Coming Soon) – Know how far your next bite is.
+🕓 Distance & Duration Estimates – Know how far your next bite is.
 
 
 
