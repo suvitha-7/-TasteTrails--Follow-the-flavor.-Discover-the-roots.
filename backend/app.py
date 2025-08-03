@@ -8,7 +8,7 @@ CORS(app)
 # MongoDB connection
 client = MongoClient('mongodb://localhost:27017/')
 db = client['native_foods']
-collection = db['foods']  # ✅ FIXED: use 'foods' instead of 'city_data'
+collection = db['foods']  
 
 @app.route('/get_foods', methods=['POST'])
 def get_foods():
